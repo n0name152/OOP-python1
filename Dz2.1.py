@@ -1,4 +1,10 @@
 import random
+import logging
+logging.basicConfig(level=logging.DEBUG,
+                    filename="logs11.log", filemode="a",
+                    format="We have next logging message: "
+                           "%(asctime)s:%(levelname)s-%(message)s"
+                    )
 
 class Human:
     def __init__(self, name="Human", job=None, home=None, car=None, phone=None):
@@ -74,14 +80,17 @@ class Human:
                 return
         if manage == "fuel":
             print("I bought fuel")
+            logging.info("bought fuel")
             self.money -= 100
             self.car.fuel += 100
         elif manage == "food":
             print("Bought food")
+            logging.info("bought food")
             self.money -= 50
             self.home.food += 50
         elif manage == "delicacies":
             print("Hooray! Delicious!")
+            logging.info("Delicious time")
             self.gladness += 10
             self.satiety += 2
             self.money -= 15
@@ -100,29 +109,43 @@ class Human:
     def days_indexes(self, day):
         day = f" Today the {day} of {self.name}'s life "
         print(f"{day:=^50}", "\n")
+        logging.info("Days")
         human_indexes = self.name + "'s indexes"
         print(f"{human_indexes:^50}", "\n")
+        logging.info("human indexes")
         print(f"Money – {self.money}")
+        logging.info("money")
         print(f"Satiety – {self.satiety}")
+        logging.info("satiety")
         print(f"Gladness – {self.gladness}")
+        logging.info("gladness")
         home_indexes = "Home indexes"
         print(f"{home_indexes:^50}", "\n")
+        logging.info("home indexes")
         print(f"Food – {self.home.food}")
+        logging.info("food")
         print(f"Mess – {self.home.mess}")
+        logging.info("mess")
         car_indexes = f"{self.car.brand} car indexes"
         print(f"{car_indexes:^50}", "\n")
+        logging.info("car indexes")
         print(f"Fuel – {self.car.fuel}")
+        logging.info("fuel")
         print(f"Strength – {self.car.strength}")
+        logging.info("car strength")
 
     def is_alive(self):
         if self.gladness < 0:
             print("Depression…")
+            logging.info("depression")
             return False
         if self.satiety < 0:
             print("Dead…")
+            logging.info("dead")
             return False
         if self.money < -500:
             print("Bankrupt…")
+            logging.info("bankrupt")
             return False
 
     def live(self, day):
@@ -130,52 +153,68 @@ class Human:
             return False
         if self.home is None:
             print("Settled in the house")
+            logging.info("bought a house")
             self.get_home()
         if self.car is None:
             self.get_car()
             print(f"I bought a car {self.car.brand}")
+            logging.info("bought a car")
         if self.job is None:
             self.get_job()
             print(f"I don't have a job, I'm going to get a job "
                   f"{self.job.job} with salary {self.job.salary}")
+            logging.info("got a job")
         if self.phone is None:
             self.get_phone()
             print(f"I bought a phone {self.phone.phone} for {self.phone.salary_less}" )
+            logging.info("bought a phone")
         self.days_indexes(day)
         dice = random.randint(1, 5)
         if self.satiety < 20:
             print("I'll go eat")
+            logging.info("needs to eat")
             self.eat()
         elif self.gladness < 20:
             print("I'll play some games!")
+            logging.info("playing games")
             self.phone()
             if self.home.mess > 15:
                 print("I want to chill, but there is so much mess…")
+                logging.info("mess in the house")
                 print("So I will clean the house")
+                logging.info("cleaning the house")
                 self.clean_home()
             else:
                 print("Let`s chill!")
+                logging.info("chilling")
                 self.chill()
         elif self.money < 0:
             print("Start working")
+            logging.info("working")
             self.work()
         elif self.car.strength < 15:
             print("I need to repair my car")
+            logging.info("need to repair a car")
             self.to_repair()
         elif dice == 1:
             print("Let`s chill!")
+            logging.info("need to chill")
             self.chill()
         elif dice == 2:
             print("Start working")
+            logging.info("working")
             self.work()
         elif dice == 3:
             print("Cleaning time!")
+            logging.info("cleaning")
             self.clean_home()
         elif dice == 4:
             print("Time for treats!")
+            logging.info("Time for treats")
             self.shopping(manage="delicacies")
         elif dice == 5:
             print("Playing games!")
+            logging.info("Playing games")
             self.playing_games()
 
 brands_of_car = {
